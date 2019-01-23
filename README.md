@@ -5,7 +5,7 @@
 
 ##Example of use:<br>
 ```
-  from PDFreader.pdfReader import extract_pdf<br>
-  data = extract_pdf('path/to/your/testfile.pdf')<br>
+  from PDFreader.pdfReader import extract_pdf
+  data = extract_pdf('path/to/your/testfile.pdf')
   print(data)
 ```
