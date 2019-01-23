@@ -1,6 +1,6 @@
 import codecs
 import io
-from pythainlp.spell import spell
+import os
 from pylexto import LexTo
 
 from pdfminer.converter import TextConverter
@@ -8,7 +8,6 @@ from pdfminer.pdfinterp import PDFPageInterpreter
 from pdfminer.pdfinterp import PDFResourceManager
 from pdfminer.pdfpage import PDFPage
 from pdfminer.layout import LAParams
-from tika import parser
 
 import re
 
@@ -36,6 +35,7 @@ def extract_text_from_pdf(pdf_path,layout=True):
         return text
 def thai_distributed_spacing_formatter(text):
     """
+    not implement yet
     remove the additional white space within the line that align with thai-distributed
     """
     # the Thai-distributed modified the text when the line has a space.
@@ -77,14 +77,16 @@ def regex_formatter(text):
         # print("t "+data[ind-expand:ind+expand])
     return data
 def dictionary_formatter(text):
+    
     data = text
-
-    f = codecs.open("aum_list.txt","r","utf-8")
+    aum_ = os.path.join(os.path.dirname(__file__), "aum_list.txt")
+    aum_typo = os.path.join(os.path.dirname(__file__), "aum_typo_list.txt")
+    f = codecs.open(aum_,"r","utf-8")
     doc = f.read()
     f.close()
     aum_list = doc.split("\n")
 
-    f = codecs.open("aum_typo_list.txt","r","utf-8")
+    f = codecs.open(aum_typo,"r","utf-8")
     doc = f.read()
     f.close()
     aum_typo_list = doc.split("\n")
@@ -107,7 +109,7 @@ def dictionary_formatter(text):
     data = doc
     data.replace('เทำ','เท่า')
     return data
-def extract_pdf(fname):
+def extract_pdf(fname,includeTable=True,layout=False):
     data = extract_text_from_pdf(fname)
     # print("->"+data)
     data = regex_formatter(data)
