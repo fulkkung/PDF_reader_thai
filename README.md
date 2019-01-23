@@ -4,7 +4,7 @@
 
 ## How to install:
 
-    copy the module PDFreader into your project.
+copy the module PDFreader into your project.
 
 
 ## Example of use:
