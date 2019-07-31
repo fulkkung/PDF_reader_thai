@@ -50,8 +50,8 @@ def regex_formatter(text):
     data = text
     # manage aum vowel
     b = 0
-    aum_format = [' า',' ่า',' ้า',' ๊า',' ๋า','้่า','่่า','๊่า','๋่า']
-    replacer = ['ำ','่ำ','้ำ','๊ำ','๋ำ','้ำ','่ำ','๊ำ','๋ำ']
+    aum_format = [' า',' ่า',' ้า',' ๊า',' ๋า','้่า','่่า','๊่า','๋่า',' ำ']
+    replacer = ['ำ','่ำ','้ำ','๊ำ','๋ำ','้ำ','่ำ','๊ำ','๋ำ','ำ']
     expand = 10
     for i in range(len(aum_format)): 
         b=0 # search from start document       
@@ -76,6 +76,28 @@ def regex_formatter(text):
         data = data[:ind+1]+ '่' + data[ind+2:]
         # print("t "+data[ind-expand:ind+expand])
     return data
+
+def dictionary_formatter2(text):
+    data = text
+    ar_ = os.path.join(os.path.dirname(__file__),'ar.txt')
+    ar_typo = os.path.join(os.path.dirname(__file__),'ar_typo.txt')
+
+    f = open(ar_,'r',encoding='utf8')
+    ar = f.read().split('\n')
+    f.close()
+
+    f = open(ar_typo,'r',encoding='utf8')
+    ar_typo = f.read().split('\n')
+    replace_list = []
+    for i in range(len(ar_typo)):
+        if ar_typo[i] in data:
+            # print(ar_typo[i],ar[i])
+            data = data.replace(ar_typo[i],ar[i])
+            
+
+    return data
+
+
 def dictionary_formatter(text):
     
     data = text
@@ -103,7 +125,7 @@ def dictionary_formatter(text):
     doc = ''
     for w,t in zz:
         if t == 'unknown' and w[-1] == '่':
-            print(w[:-1])
+            # print(w[:-1])
             w = w[:-1]
         doc += w
     data = doc
@@ -114,4 +136,5 @@ def extract_pdf(fname,includeTable=True,layout=False):
     # print("->"+data)
     data = regex_formatter(data)
     data = dictionary_formatter(data)
+    data = dictionary_formatter2(data)
     return data
